@@ -11,11 +11,15 @@
 
     <link href="http://www.elasticsearch.org/atom.xml" rel="alternate" title="elasticsearch" type="application/atom+xml" />
 
-    <link rel="stylesheet" type="text/css" href="/scripts/prettify/prettify.css" />
+	  <link rel="stylesheet" type="text/css" href="/scripts/prettify/prettify.css">
     <link rel="stylesheet" type="text/css" href="/styles/reset.css" />
     <link rel="stylesheet" type="text/css" href="/styles/screen.css?1000" />
+    <link rel="stylesheet" type="text/css" href="/styles/jquery-ui/ui-lightness/jquery-ui-1.8.9.custom.css">
 
     <script type="text/javascript" src="/scripts/jquery-1.5.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery-ui-1.8.9.custom.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery.ui.autocomplete.html.js"></script>
+
     <!-- Analytics -->
     <script type="text/javascript">
 
@@ -35,6 +39,7 @@
 <body>
     <div id="wrapper">
         <div id="all">
+            <div id="search-box"></div>
             {% include header.html %}
             {% if page.title_in_header != false %}
                 <h2 class="page_title">{{ page.title }} </h2>
@@ -54,5 +59,9 @@
     <script type="text/javascript">
         prettyPrint();
     </script>
+
+    </script>    
+    <script>$('#search-box').load('/search.html');</script>
+
 </body>
 </html>
