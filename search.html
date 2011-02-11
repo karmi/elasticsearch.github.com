@@ -1,0 +1,115 @@
+<input id="search" class="ui-corner-all" autocomplete="off" placeholder="Search (Use Lucene query syntax)">
+
+<style>
+  #search-box {
+    font-family: 'Helvetica Neue', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    width: 35em;
+    margin: 0 auto;
+  }
+  #search-box .ui-widget {
+    font-family: 'Helvetica Neue', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+  }
+  input#search {
+    font-size: 105%;
+    background: #ebfad4;
+    padding: 0.25em 0.5em; margin: 0;
+    border: 1px solid #fff; border-top: none;
+    width: 100%;
+    -moz-border-radius-topright: 0; -webkit-border-radius-top-right: 0; border-top-right-radius: 0;
+    -moz-border-radius-topleft: 0; -webkit-border-radius-top-left: 0; border-top-left-radius: 0;
+  }
+  input#search:focus {
+    outline: none;
+  }
+  ul.ui-autocomplete {
+    background: #ebfad4 !important;
+    font-size: 80%;
+    border: 1px solid #fff;
+    padding: 0 !important;
+    -moz-border-radius-topright: 0; -webkit-border-radius-top-right: 0; border-top-right-radius: 0;
+    -moz-border-radius-topleft: 0; -webkit-border-radius-top-left: 0; border-top-left-radius: 0;
+    -moz-box-shadow: 0px 1px 2px #666;
+    -webkit-box-shadow: 0px 1px 2px #666;
+    box-shadow: 0px 1px 2px #666
+  }
+  ul.ui-autocomplete li.ui-menu-item {
+    border-bottom: 1px solid #fff;
+  }
+  ul.ui-autocomplete li.ui-menu-item:last-child {
+    border-bottom: none;
+  }
+  ul.ui-autocomplete li.ui-menu-item a {
+    padding: 0.5em 0.5em;
+    -moz-border-radius: 0 !important; -webkit-border-radius: 0 !important; border-radius: 0 !important;
+  }
+  ul.ui-autocomplete .ui-state-hover {
+    color: #222;
+    border-color: #fff !important;
+    background: #c6fa78 !important;
+  }
+  ul.ui-autocomplete .ui-state-hover * {
+    color: #222;
+    cursor: pointer;
+  }
+  ul.ui-autocomplete li.ui-menu-item p {
+    margin: 0 !important; padding: 0 !important; line-height: 1em !important;
+    margin-bottom: 0;
+  }
+  ul.ui-autocomplete li.ui-menu-item p a {
+    padding: 0 !important; margin: 0 !important; line-height: 1em !;
+    display: inline !important;
+  }
+  ul.ui-autocomplete li.ui-menu-item em {
+    font-style: normal;
+    font-size: 85%;
+    padding: 0.25em 0.5em;
+    background-color: #C9D4B2;
+    -moz-border-radius: 0.5em; -webkit-border-radius: 0.5em; border-radius: 0.5em;
+    -moz-border-radius: 0.5em; -webkit-border-radius: 0.5em; border-radius: 0.5em;
+  }
+  ul.ui-autocomplete li.ui-menu-item small {
+    font-size: 70%;
+  }
+  ul.ui-autocomplete li.ui-menu-item .ui-state-hover em {
+    background-color: #A7D94C;
+  }
+</style>
+
+<script>
+
+$(function() {
+    var elastic_search_url = "http://localhost:9200/elastic-search-website/_search";
+
+		$( "#search" ).autocomplete({
+			source: function( request, response ) {
+				$.ajax({
+					url: elastic_search_url+"?q="+request.term,
+					dataType: "jsonp",
+					success: function( data ) {
+						response( $.map( data.hits.hits, function( item ) {
+							return {
+								label: '<p><strong>' + item._source.title    + '</strong>' +
+								       ' <em>'       + item._source.category + '</em>'     + '</p>' +
+								       '<p><small>'  + item._source.url      + '</small></p>',
+								value: item._source.url
+							}
+						}));
+					}
+				});
+			},
+			minLength: 2,
+			html: true,
+			select: function( event, ui ) {
+        event.preventDefault();
+			  ui.item ? document.location.href = ui.item.value : null;
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+			}
+		});
+	});
+
+</script>
