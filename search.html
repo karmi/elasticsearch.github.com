@@ -91,7 +91,8 @@ $(function() {
 								label: '<p><strong>' + item._source.title    + '</strong>' +
 								       ' <em>'       + item._source.category + '</em>'     + '</p>' +
 								       '<p><small>'  + item._source.url      + '</small></p>',
-								value: item._source.url
+								value: item._source.title,
+								url  : item._source.url
 							}
 						}));
 					}
@@ -101,7 +102,7 @@ $(function() {
 			html: true,
 			select: function( event, ui ) {
         event.preventDefault();
-			  ui.item ? document.location.href = ui.item.value : null;
+        ui.item ? document.location.href = ui.item.url : null;
 			},
 			open: function() {
 				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
