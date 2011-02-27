@@ -10,6 +10,7 @@
     font-family: 'Helvetica Neue', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
   }
   input#search {
+    color: #444;
     font-size: 105%;
     background: #ebfad4;
     padding: 0.25em 0.5em; margin: 0;
@@ -20,6 +21,9 @@
   }
   input#search:focus {
     outline: none;
+  }
+  input#search.placeholder {
+    color: #aaa;
   }
   ul.ui-autocomplete {
     background: #ebfad4 !important;
@@ -76,8 +80,9 @@
 </style>
 
 <script>
-
 $(function() {
+    $.placeholder();
+
     var elastic_search_url = "http://localhost:9200/elastic-search-website/_search";
 
 		$( "#search" ).autocomplete({
