@@ -88,16 +88,16 @@ $(function() {
 		$( "#search" ).autocomplete({
 			source: function( request, response ) {
 				$.ajax({
-					url: elastic_search_url+"?q="+request.term,
+					url: elastic_search_url+"?fields=title,category,url&q="+request.term,
 					dataType: "jsonp",
 					success: function( data ) {
 						response( $.map( data.hits.hits, function( item ) {
 							return {
-								label: '<p><strong>' + item._source.title    + '</strong>' +
-								       ' <em>'       + item._source.category + '</em>'     + '</p>' +
-								       '<p><small>'  + item._source.url      + '</small></p>',
-								value: item._source.title,
-								url  : item._source.url
+								label: '<p><strong>' + item.fields.title    + '</strong>' +
+								       ' <em>'       + item.fields.category + '</em>'     + '</p>' +
+								       '<p><small>'  + item.fields.url      + '</small></p>',
+								value: item.fields.title,
+								url  : item.fields.url
 							}
 						}));
 					}
