@@ -88,7 +88,7 @@ $(function() {
 		$( "#search" ).autocomplete({
 			source: function( request, response ) {
 				$.ajax({
-					url: elastic_search_url+"?fields=title,category,url&q="+request.term,
+					url: elastic_search_url+"?fields=title,category,url&size=25&q="+request.term,
 					dataType: "jsonp",
 					success: function( data ) {
 						response( $.map( data.hits.hits, function( item ) {
